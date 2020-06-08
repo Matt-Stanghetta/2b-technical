@@ -1,10 +1,10 @@
-var data = JSON.stringify({
-  "token": "AKI_GrHR7WwjLreZP4oF4Q",
+var payload = JSON.stringify({
+  "token": "XiKKu7e22vGX3rUv3w0Ojw",
   "data": {
     "Name": "name",
     "ID":"numberInt",
     "Email":"internetEmail",
-    "_repeat": 15
+    "_repeat": 3
   }
 });
 
@@ -17,7 +17,7 @@ request.open("POST", "https://app.fakejson.com/q");
 request.setRequestHeader("content-type", "application/json");
 
 // Send the request
-request.send(data);
+request.send(payload);
 
 
 request.onload = function(){
@@ -27,7 +27,6 @@ request.onload = function(){
   let data = Object.keys(fakeData[0]);
   generateTable(table,fakeData);
   generateTableHead(table,data);
-  //console.log(fakeData);
 }
 
 function generateTableHead(table, data) {
@@ -44,6 +43,7 @@ function generateTableHead(table, data) {
 function generateTable(table, data) {
   for (let element of data) {
     let row = table.insertRow();
+    //let counter = 0;
     for (key in element) {
       let cell = row.insertCell();
       let text = document.createTextNode(element[key]);
@@ -53,6 +53,7 @@ function generateTable(table, data) {
     //NOTE: add a delete button to each table row
     let delButtonElement = document.createElement("button");
     let editButtonElement = document.createElement("button");
+
     //NOTE: add text to the button
     delButtonElement.appendChild( document.createTextNode( "Delete" ) );
     editButtonElement.appendChild( document.createTextNode( "Edit" ) );
@@ -62,8 +63,28 @@ function generateTable(table, data) {
     } )
 
     editButtonElement.addEventListener("click", function onEditRowClicked(){
-      //not done yet
+      //Changes row to test data but breaks buttons, and shifts record to bottom.
+      /* 
+      let newrow = table.insertRow();
+      newrow.insertCell(0).appendChild(document.createTextNode("test@test.com"));//.innerHTML = "test@test.com";
+      newrow.insertCell(1).appendChild(document.createTextNode("1"));//.innerHTML = "1";
+      newrow.insertCell(2).appendChild(document.createTextNode("testy test"));//.innerHTML = "testy test";
+      newrow.appendChild(delButtonElement);
+      newrow.appendChild(editButtonElement);
+      newrow.parentElement.appendChild(newrow);
+      row.parentElement.removeChild(row);
+      */
+      //Cycles the top record to the bottom
+      /*Bones of a dead trial*/
+      var table = document.getElementsByTagName('tbody');
+      table = table[0];
+      var rows = table.getElementsByTagName('tr');
+      var shifted = rows[0];
+      rows[0].parentNode.removeChild(rows[0]);
+      table.appendChild(shifted);
+    
     });
+    //counter++;
     row.appendChild(delButtonElement);
     row.appendChild(editButtonElement);
   }
